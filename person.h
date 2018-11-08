@@ -13,6 +13,7 @@ class person_class
     std::string getsex();
     int getAge();
     mood_class getMood();
+    int getID();
     void setAge(int);
     void setMood(mood_class);
     void saveData();
