@@ -11,67 +11,33 @@ using namespace std;
 using namespace cv; 
 
 // Function for Face Detection 
-void detectAndDraw( Mat& img, CascadeClassifier& cascade, 
-				CascadeClassifier& nestedCascade, double scale ); 
+void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, CascadeClassifier& nestedCascade2, double scale ); 
 string cascadeName, nestedCascadeName; 
 
 int main( int argc, const char** argv ) 
 { 
-	// VideoCapture class for playing video for which faces to be detected 
-	VideoCapture capture; 
+  // declares matrixs 
+  // for now using static images, will try and upgrade to video capture later on.
 	Mat frame, image, song, dst; 
   song = imread("song.jpg");
-  resize(song, dst, Size(450,650));
+  resize(song, dst, Size(540,960));
   
 
 	// PreDefined trained XML classifiers with facial features 
-	CascadeClassifier cascade, nestedCascade; 
+	CascadeClassifier cascade, nestedCascade, nestedCascade2; 
 	double scale=1; 
 
-	// Load classifiers from "opencv/data/haarcascades" directory 
+  //load classifiers 
+  nestedCascade2.load("haarcascade_frontalface_default.xml");
 	nestedCascade.load( "haarcascade_eye_tree_eyeglasses.xml" ) ; 
-
-	// Change path before execution 
 	cascade.load( "haarcascade_frontalcatface.xml" ) ; 
 
-  detectAndDraw(dst, cascade, nestedCascade, scale);
-  char c = (char)waitKey(10);
+  detectAndDraw(dst, cascade, nestedCascade, nestedCascade2, scale);
 
-  if( c == 27 || c == 'q' || c == 'Q'){
-    return 0;
-  }
-/*
-	// Start Video..1) 0 for WebCam 2) "Path to Video" for a Local Video 
-	capture.open(0); 
-	if( capture.isOpened() ) 
-	{ 
-		// Capture frames from video and detect faces 
-		cout << "Face Detection Started...." << endl; 
-		while(1) 
-		{ 
-			capture >> frame; 
-			if( frame.empty() ) 
-				break; 
-			Mat frame1 = frame.clone(); 
-			detectAndDraw( dst, cascade, nestedCascade, scale ); 
-			char c = (char)waitKey(10); 
-		
-			// Press q to exit from window 
-			if( c == 27 || c == 'q' || c == 'Q' ) 
-				break; 
-		} 
-	} 
-	else
-		cout<<"Could not Open Camera"; 
-  //detectAndDraw(song, cascade, nestedCascade, scale);
-  */
-  // char c = (char)waitKey(10);
 return 0; 
 } 
 
-void detectAndDraw( Mat& img, CascadeClassifier& cascade, 
-					CascadeClassifier& nestedCascade, 
-					double scale) 
+void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, CascadeClassifier& nestedCascade2, double scale) 
 { 
 	vector<Rect> faces, faces2; 
 	Mat gray, smallImg; 
@@ -84,8 +50,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 	equalizeHist( smallImg, smallImg ); 
 
 	// Detect faces of different sizes using cascade classifier 
-	cascade.detectMultiScale( smallImg, faces, 1.1, 
-							2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) ); 
+	cascade.detectMultiScale( smallImg, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) ); 
 
 	// Draw circles around the faces 
 	for ( size_t i = 0; i < faces.size(); i++ ) 
@@ -125,14 +90,26 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 			center.y = cvRound((r.y + nr.y + nr.height*0.5)*scale); 
 			radius = cvRound((nr.width + nr.height)*0.25*scale); 
 			circle( img, center, radius, color, 3, 8, 0 ); 
+			
+		// Detection of face
+		nestedCascade2.detectMultiScale( smallImgROI, nestedObjects, 1.1, 2, 
+										0|CASCADE_SCALE_IMAGE, Size(30, 30) ); 
+		
+		for ( size_t k = 0; k < nestedObjects.size(); k++ ) 
+		{ 
+			Rect nr = nestedObjects[k]; 
+			center.x = cvRound((r.x + nr.x + nr.width*0.5)*scale); 
+			center.y = cvRound((r.y + nr.y + nr.height*0.5)*scale); 
+			radius = cvRound((nr.width + nr.height)*0.25*scale); 
+			circle( img, center, radius, color, 3, 8, 0 ); 
 		} 
+} 
 	} 
 
 	// Show Processed Image with detected faces 
   namedWindow ("Display window", WINDOW_AUTOSIZE);
 	imshow( "Display window", img ); 
+  // wait for key before exit
   waitKey(0);
-
-
 } 
 
