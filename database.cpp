@@ -1,7 +1,5 @@
 #include "database.h"
 
-std::vector<person_class> list;
-
 database_class :: database_class(std::vector<person_class> a) {
 	list = a;
 }
