@@ -4,6 +4,7 @@
 #include "opencv2/objdetect.hpp" 
 #include "opencv2/highgui.hpp" 
 #include "opencv2/imgproc.hpp" 
+#include "opencv2/imgcodecs.hpp"
 #include <iostream> 
 
 using namespace std; 
@@ -18,7 +19,10 @@ int main( int argc, const char** argv )
 { 
 	// VideoCapture class for playing video for which faces to be detected 
 	VideoCapture capture; 
-	Mat frame, image; 
+	Mat frame, image, song, dst; 
+  song = imread("song.jpg");
+  resize(song, dst, Size(450,650));
+  
 
 	// PreDefined trained XML classifiers with facial features 
 	CascadeClassifier cascade, nestedCascade; 
@@ -29,6 +33,7 @@ int main( int argc, const char** argv )
 
 	// Change path before execution 
 	cascade.load( "haarcascade_frontalcatface.xml" ) ; 
+
 
 	// Start Video..1) 0 for WebCam 2) "Path to Video" for a Local Video 
 	capture.open(0); 
@@ -42,7 +47,7 @@ int main( int argc, const char** argv )
 			if( frame.empty() ) 
 				break; 
 			Mat frame1 = frame.clone(); 
-			detectAndDraw( frame1, cascade, nestedCascade, scale ); 
+			detectAndDraw( dst, cascade, nestedCascade, scale ); 
 			char c = (char)waitKey(10); 
 		
 			// Press q to exit from window 
@@ -52,7 +57,10 @@ int main( int argc, const char** argv )
 	} 
 	else
 		cout<<"Could not Open Camera"; 
-	return 0; 
+  //detectAndDraw(song, cascade, nestedCascade, scale);
+  
+  // char c = (char)waitKey(10);
+return 0; 
 } 
 
 void detectAndDraw( Mat& img, CascadeClassifier& cascade, 
