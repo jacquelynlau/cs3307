@@ -8,12 +8,12 @@ class database_class
 {
   public:
     database_class();
-    person_class getList();
+    vector<person_class> getList();
     person_class getPerson(person_class person);
     void toString();
 
   private:
-    person_class list[];
+    vector<person_class> list;
 };
 
 #endif
