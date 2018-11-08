@@ -7,13 +7,13 @@
 class database_class
 {
   public:
-    database_class(vector<person_class> a);
-    vector<person_class> getList();
+    database_class(std::vector<person_class> a);
+    std::vector<person_class> getList();
     person_class getPerson(person_class person);
     void toString();
 
   private:
-    vector<person_class> list;
+    std::vector<person_class> list;
 };
 
 #endif
