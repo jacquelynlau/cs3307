@@ -34,7 +34,13 @@ int main( int argc, const char** argv )
 	// Change path before execution 
 	cascade.load( "haarcascade_frontalcatface.xml" ) ; 
 
+  detectAndDraw(dst, cascade, nestedCascade, scale);
+  char c = (char)waitKey(10);
 
+  if( c == 27 || c == 'q' || c == 'Q'){
+    return 0;
+  }
+/*
 	// Start Video..1) 0 for WebCam 2) "Path to Video" for a Local Video 
 	capture.open(0); 
 	if( capture.isOpened() ) 
@@ -58,7 +64,7 @@ int main( int argc, const char** argv )
 	else
 		cout<<"Could not Open Camera"; 
   //detectAndDraw(song, cascade, nestedCascade, scale);
-  
+  */
   // char c = (char)waitKey(10);
 return 0; 
 } 
@@ -123,6 +129,10 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade,
 	} 
 
 	// Show Processed Image with detected faces 
-	imshow( "Face Detection", img ); 
+  namedWindow ("Display window", WINDOW_AUTOSIZE);
+	imshow( "Display window", img ); 
+  waitKey(0);
+
+
 } 
 
