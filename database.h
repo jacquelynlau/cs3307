@@ -7,7 +7,7 @@
 class database_class
 {
   public:
-    database_class();
+    database_class(vector<person_class> a);
     vector<person_class> getList();
     person_class getPerson(person_class person);
     void toString();
