@@ -14,13 +14,25 @@ using namespace cv;
 void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale ); 
 string cascadeName, nestedCascadeName; 
 
-int main( int argc, const char** argv ) 
+int main( int argc, char** argv ) 
 { 
-  // declares matrixs 
-  // for now using static images, will try and upgrade to video capture later on.
 
   Mat frame, image, song, dst; 
-  song = imread("song.jpg");
+
+  if(argc > 0){
+    try {
+
+      song = imread(argv[1]);
+    }
+    catch(const bad_alloc&){
+      perror("file not found");
+    }}
+  else{
+    song = imread("song.jpg");
+  }
+
+
+
   resize(song, dst, Size(540,960));
 
 
@@ -100,9 +112,6 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nes
       center.y = cvRound((r.y + nr.y + nr.height*0.5)*scale); 
       radius = cvRound((nr.width + nr.height)*0.25*scale); 
       circle( img, center, radius, color, 3, 8, 0 ); 
-
-
-
     } 
   } 
 
@@ -120,9 +129,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nes
         circle(img, shapes[n][k], 5, Scalar(0,0,255), FILLED);
       }
     }
-
   }
-
 
   namedWindow ("Display window", WINDOW_AUTOSIZE);
   imshow( "Display window", img ); 
