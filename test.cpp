@@ -11,7 +11,7 @@ using namespace std;
 using namespace cv; 
 
 // Function for Face Detection 
-void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale ); 
+void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale ); 
 string cascadeName, nestedCascadeName; 
 
 int main( int argc, char** argv ) 
@@ -31,8 +31,6 @@ int main( int argc, char** argv )
     song = imread("song.jpg");
   }
 
-
-
   resize(song, dst, Size(540,960));
 
 
@@ -44,12 +42,12 @@ int main( int argc, char** argv )
   nestedCascade.load( "haarcascade_eye_tree_eyeglasses.xml" ) ; 
   cascade.load( "haarcascade_frontalcatface.xml" ) ; 
 
-  detectAndDraw(dst, cascade, nestedCascade, scale);
+  facialRecognition(dst, cascade, nestedCascade, scale);
 
   return 0; 
 } 
 
-void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale) 
+void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale) 
 { 
   vector<Rect> faces, faces2; 
   Mat gray, smallImg; 
@@ -57,6 +55,7 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nes
   perror("no error");
   try{
 
+    // trained model
     facemark->loadModel("face_landmark_model.dat");
   }
   catch(const bad_alloc&){
@@ -67,14 +66,14 @@ void detectAndDraw( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nes
   cvtColor( img, gray, COLOR_BGR2GRAY ); // Convert to Gray Scale 
   double fx = 1 / scale; 
 
-  // Resize the Grayscale Image 
+  // grayscale
   resize( gray, smallImg, Size(), fx, fx, INTER_LINEAR_EXACT ); 
   equalizeHist( smallImg, smallImg ); 
 
   // Detect faces of different sizes using cascade classifier 
   cascade.detectMultiScale( smallImg, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) ); 
 
-  // Draw circles around the faces 
+  // circles around eyes and glasses
   for ( size_t i = 0; i < faces.size(); i++ ) 
   { 
     Rect r = faces[i]; 
