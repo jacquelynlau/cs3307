@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(test)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 find_package ( openCV REQUIRED)
 include_directories( ${openCV_INCLUDE_DIRS} )
 add_executable( test test.cpp)
