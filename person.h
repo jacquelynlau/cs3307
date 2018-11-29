@@ -9,7 +9,7 @@
 class person_class
 {
   public:
-    person_class();
+    person_class(int iD, std::string sexx, int agee, mood_class moodd, Mat image);
     std::string getsex();
     int getAge();
     mood_class getMood();
