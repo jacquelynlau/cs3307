@@ -1,50 +1,42 @@
-#include "Person.h"
+#include "person.h"
 
-using namespace std; 
+  person_class :: person_class() {
+    id = iD;
+    sex = sexx;
+    age = agee;
+    mood = moodd;
+    img = image;
+  }
+  
+  std::string person_class :: getsex() {
+     return sex;
+  }
 
-class person_class {
+  int person_class :: getAge() {
+    return age; 
+  }
 
-  public:
-    
-    person_class {
+  mood_class person_class :: getMood() {
+    return mood;
+  }
 
-    }
+  int person_class :: getID() {
+    return id; 
+  }
 
-    string getsex() {
-    }
+  void person_class :: setAge(int agee) {
+    age = agee;
+  }
 
-    int getAge() {
-    }
+  void person_class :: setMood(mood_class newMood) {
+     mood = newMood;
+  }
 
-    mood_class getMood() {
-    }
+  Mat person_class :: getImg() {
+    return img; 
+  }
 
-    int getID() {
-    }
-
-    void setAge(int) {
-    }
-
-    void setMood(mood_class) {
-    }
-
-    void saveData() {
-    }
-
-
-  private:
-
-    int id {
-    }
-
-    std::string sex {
-    }
-
-    int age {
-    }
-
-    mood_class mood {
-    }
-
-
+  void person_class :: setImg(Mat image) {
+    img = image; 
+  }
 }
