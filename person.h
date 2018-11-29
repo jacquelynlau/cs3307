@@ -16,7 +16,6 @@ class person_class
     int getID();
     void setAge(int agee);
     void setMood(mood_class);
-    void saveData();
     Mat getImg();
     void setImg(Mat image);
 
