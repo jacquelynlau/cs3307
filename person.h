@@ -17,12 +17,15 @@ class person_class
     void setAge(int);
     void setMood(mood_class);
     void saveData();
+    Mat getImg();
+    void setImg(Mat image);
 
   private:
     int id;
     std::string sex;
     int age;
     mood_class mood;
+    Mat img;
 };
 
 #endif
