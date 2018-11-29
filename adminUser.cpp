@@ -3,6 +3,6 @@
 void adminUser::setType(std::string t) {
 	type = t;
 }
-std::string adminUser::getType() {
+std::string adminUser::returnType() {
 	return type;
 }

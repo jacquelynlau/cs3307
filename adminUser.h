@@ -9,6 +9,6 @@ class adminUser {
 	public:
 		void setType(std::string t);
 		std::string returnType();
-}
+};
 
 #endif

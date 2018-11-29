@@ -15,12 +15,12 @@ person_class database_class :: getPerson(person_class person) {
 			return person;
 		}
 	}
-	cout << "Person was not found in the database" << endl;
+  std::cout << "Person was not found in the database" << std::endl;
 	return NULL;	
 }
 
 void database_class :: toString() {
 	for (uint i = 0; i < list.size(); i++) {
-		cout << "Person: " << list[i].getID() << "Age: " << list[i].getAge() << "Sex: " << list[i].getsex() << "Mood: " << list[i].getMood() << endl;
+    std::cout << "Person: " << list[i].getID() << "Age: " << list[i].getAge() << "Sex: " << list[i].getsex() << "Mood: " << list[i].getMood() << std::endl;
 	}
 }
