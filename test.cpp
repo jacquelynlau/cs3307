@@ -1,42 +1,60 @@
 
 // header files
-#include "/usr/local/include/opencv4/opencv2/objdetect.hpp"
-#include "/usr/local/include/opencv4/opencv2/highgui.hpp"
-#include "/usr/local/include/opencv4/opencv2/imgproc.hpp"
-#include "/usr/local/include/opencv4/opencv2/imgcodecs.hpp"
-#include "/usr/local/include/opencv4/opencv2/face/facemark.hpp"
+#include "opencv2/objdetect.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/imgproc/imgproc_c.h"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/face/facemark.hpp"
 #include <iostream>
 
 using namespace std;
 using namespace cv;
 
 void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale );
-string cascadeName, nestedCascadeName;
 
-int main( int argc, char** argv )
+int main( int argc, char** argv)
 {
 
   CascadeClassifier cascade, nestedCascade;
-  Mat image, song, dst;
-  double scale=1.1;
+  Mat edges, image,song, dst;
+  double scale=1;
 
-  if(argc > 0){
-    try {
-      song = imread(argv[1]);
-    }
-    catch(const bad_alloc&){
-      perror("file not found");
-    }}
-  else{
-    song = imread("song.jpg");
-  }
-
-  resize(song, dst, Size(540,960));
-  //load classifiers
+  // load classifiers
   nestedCascade.load( "haarcascade_eye_tree_eyeglasses.xml" ) ;
   cascade.load( "haarcascade_frontalcatface.xml" ) ;
 
-  facialRecognition(dst, cascade, nestedCascade, scale);
+  if(argc > 1){
+    try {
+      song = imread(argv[1]);
+      resize(song, dst, Size(540, 960));
+      facialRecognition(dst, cascade, nestedCascade, scale);
+
+    }
+    catch(const bad_alloc&){
+      perror("file not found");
+    }
+  }
+  else{
+    VideoCapture capture(0);
+    namedWindow("display", WINDOW_AUTOSIZE);
+    if(capture.isOpened())
+    {
+      for(;;)
+      {
+        Mat frame;
+        capture >> frame;
+        imshow("display", frame);
+        char c = (char)waitKey(10);
+        //facialRecognition(image, cascade, nestedCascade, scale);
+        if (c == 27 || c == 'c' || c == 'C' ){
+          Mat frame1 = frame.clone();
+          facialRecognition(frame1, cascade, nestedCascade, scale);
+          break;
+        }
+      }
+    }
+  }
 
   return 0;
 }
@@ -44,11 +62,11 @@ int main( int argc, char** argv )
 void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale)
 {
   vector<Rect> faces, faces2;
-  Mat gray, smallImg;
   Ptr<face::Facemark> facemark = face::createFacemarkKazemi();
+  Mat gray, smallImg;
   double fx = 1 / scale;
 
-  perror("no error");
+
   try{
 
     // trained model
@@ -57,8 +75,8 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
   catch(const bad_alloc&){
     perror("bad alloc here");
   }
-  cout << "Loaded model successfully" << endl;
-
+  cout << "model loaded successfully\n";
+ 
   cvtColor( img, gray, COLOR_BGR2GRAY ); // Convert to Gray Scale
 
   // grayscale
@@ -75,7 +93,7 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
     Mat roi;
     vector<Rect> objs;
     Point center;
-    Scalar color = Scalar(255, 0, 0); // Color for Drawing tool
+    Scalar color = Scalar(255, 0, 0); 
     int radius;
 
     double aspect_ratio = (double)r.width/r.height;
@@ -108,7 +126,6 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
       circle( img, center, radius, color, 3, 8, 0 );
     }
   }
-
   vector< vector<Point2f> > shapes;
 
   if (facemark->fit(img, faces, shapes))
@@ -124,7 +141,6 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
       }
     }
   }
-
   namedWindow ("Display window", WINDOW_AUTOSIZE);
   imshow( "Display window", img );
   waitKey(0);
