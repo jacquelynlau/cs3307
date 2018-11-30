@@ -11,6 +11,10 @@
   std::string person_class :: getsex() {
      return sex;
   }
+  
+  void person_class :: setSex(std::string sexx) {
+     sex = sexx;
+  }
 
   int person_class :: getAge() {
     return age; 
