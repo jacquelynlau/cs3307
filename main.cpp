@@ -147,7 +147,10 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
     }
     }
 
-  // create mood object with points for smile and face landmarks
+ // create mood object with points for smile and face landmarks
+ mood_class mood(smile, shapes);
+ person_class person(0, "male", 
+
 
   namedWindow ("Display window", WINDOW_AUTOSIZE);
   imshow( "Display window", img );
