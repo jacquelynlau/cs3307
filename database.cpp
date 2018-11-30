@@ -1,8 +1,6 @@
 #include "database.h"
 
-database_class :: database_class(std::vector<person_class> a) {
-	list = a;
-}
+using namespace cv;
 
 std::vector<person_class> database_class :: getList() {
 	return list;
@@ -23,4 +21,30 @@ void database_class :: toString() {
 	for (uint i = 0; i < list.size(); i++) {
     std::cout << "Person: " << list[i].getID() << "Age: " << list[i].getAge() << "Sex: " << list[i].getsex() << "Mood: " << list[i].getMood() << std::endl;
 	}
+}
+
+void database_class :: saveData(person_class person, std::string filename) {
+	//get person's data to write it off
+	std::string ID = person.getID();
+	std::string sex = person.getsex();
+	int age = person.getAge();
+	mood_class mood = person.getMood();
+	Mat img = person.getImg();
+	
+	//open the file the user wants to write the data to
+	ofstream file;
+	file.open(filename);
+	file << ID << "   ";
+	file << sex << "   ";
+	file << age << "   ";
+	file << mood.getMood() << "   ";
+	file << mood.getHugLevel() << "   ";
+	file.close();
+	
+	//write the mat img
+	std::string imageName;
+	imageName = ID + ".jpg";
+	imwrite(imageName, img);
+	
+	
 }
