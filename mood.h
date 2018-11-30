@@ -8,7 +8,7 @@
 class mood_class
 {
   public:
-    mood_class();
+    mood_class(vector<Rect>, vector<Rect>);
     std::vector<std::string> getMood();
     void setHugLevel(int);
     float getHugLevel();
