@@ -1,6 +1,8 @@
 
 // header files
-
+/* @author Kyle Cheung, Mark Chi, Song Do, Jacquelyn Lau
+ *
+ */
 #include "opencv2/objdetect.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
@@ -64,6 +66,9 @@ int main( int argc, char** argv)
 // All the points from each classifier model are stored within vector<Rect> objs
 // pass objs to the mood class which can extrapolate the persons mood and then save that person and
 // perform image analysis 
+/** @brief main facial recognition function 
+ *  @param img, cascade, nestedCascade, scale
+ *  @return void
 void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale)
 {
 
