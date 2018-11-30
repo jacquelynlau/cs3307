@@ -3,6 +3,7 @@
 #define PERSON_H
 
 #include <string>
+#include <opencv2/opencv.hpp>
 #include "database.h"
 #include "mood.h"
 
