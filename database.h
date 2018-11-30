@@ -2,7 +2,10 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+#include <opencv2/opencv.hpp>
 #include "person.h"
+#include <iostream>
+#include <fstream>
 
 class database_class
 {
