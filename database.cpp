@@ -38,7 +38,7 @@ void database_class :: saveData(person_class person, std::string filename) {
 	file << sex << "   ";
 	file << age << "   ";
 	file << mood.getMood() << "   ";
-	file << mood.getHugLevel() << "   ";
+	file << mood.getHugLevel() << "   \n";
 	file.close();
 	
 	//write the mat img
@@ -48,3 +48,5 @@ void database_class :: saveData(person_class person, std::string filename) {
 	
 	
 }
+
+
