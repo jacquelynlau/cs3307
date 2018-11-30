@@ -11,7 +11,7 @@ class person_class
   public:
     person_class(int iD, std::string sexx, int agee, mood_class moodd, Mat image);
     std::string getsex();
-    void setSex();
+    void setSex(std::string sexx);
     int getAge();
     mood_class getMood();
     int getID();
