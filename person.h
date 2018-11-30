@@ -10,23 +10,23 @@
 class person_class
 {
   public:
-    person_class(int iD, std::string sexx, int agee, mood_class moodd, Mat image);
+    person_class(int, std::string, int, mood_class, cv::Mat);
     std::string getsex();
-    void setSex(std::string sexx);
+    void setSex(std::string);
     int getAge();
     mood_class getMood();
     int getID();
-    void setAge(int agee);
+    void setAge(int);
     void setMood(mood_class);
-    Mat getImg();
-    void setImg(Mat image);
+    cv::Mat getImg();
+    void setImg(cv::Mat);
 
   private:
     int id;
     std::string sex;
     int age;
     mood_class mood;
-    Mat img;
+    cv::Mat img;
 };
 
 #endif

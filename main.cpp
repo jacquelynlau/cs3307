@@ -7,6 +7,8 @@
 #include "opencv2/imgproc/imgproc_c.h"
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/face/facemark.hpp"
+//#include "mood.h"
+//#include "person.h"
 #include <iostream>
 
 using namespace std;
@@ -66,6 +68,8 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
 {
 
   vector<Rect> faces, faces2;
+vector<Rect> smile;
+
   Ptr<face::Facemark> facemark = face::createFacemarkKazemi();
   Mat gray, smallImg;
   double fx = 1 / scale;
@@ -131,8 +135,6 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
     nestedCascade.detectMultiScale( roi, objs, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30) );
 
     // Draw circles around eyes
-    //--In each face, detect smile
-    vector<Rect> smile;
     smileCascade.detectMultiScale(roi, smile, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30,30));
   }
 
@@ -140,19 +142,19 @@ void facialRecognition( Mat& img, CascadeClassifier& cascade, CascadeClassifier&
 
   if (facemark->fit(img, faces, shapes))
   {
-    
+
     for (size_t n = 0; n < faces.size(); n++)
     {
       rectangle(img,faces[n], Scalar(255,0,0));
     }
-    }
+  }
 
- // create mood object with points for smile and face landmarks
- mood_class mood(smile, shapes);
- person_class person(0, "male", 
+  // create mood object with points for smile and face landmarks
+  //mood_class mood(smile, shapes);
+  //person_class person(0, "male", 0, mood, img);
 
 
-  namedWindow ("Display window", WINDOW_AUTOSIZE);
-  imshow( "Display window", img );
-  waitKey(0);
-}
+      namedWindow ("Display window", WINDOW_AUTOSIZE);
+      imshow( "Display window", img );
+      waitKey(0);
+      }
