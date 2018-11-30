@@ -14,6 +14,7 @@ class database_class
     person_class getPerson(person_class person);
     void toString();
     void saveData(person_class person);
+    void clear(const char* fileName);
   
   private:
     std::vector<person_class> list;
