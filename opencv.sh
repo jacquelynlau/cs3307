@@ -23,7 +23,7 @@ mkdir build
 cd build/
 
 # cmake with extra modules
-cmake -D CMAKE_BUILD_TYPE=Release -D OPENCV_EXTRA_MODULES_PATH=~/opencv/opencv_contrib/modules ..
+cmake -D CMAKE_INSTALL_PREFIX=/usr/local -D CMAKE_BUILD_TYPE=Release -D OPENCV_EXTRA_MODULES_PATH=~/opencv/opencv_contrib/modules ..
 
 # make with multiple threads
 make -j7
