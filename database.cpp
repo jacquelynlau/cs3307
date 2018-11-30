@@ -1,4 +1,5 @@
 #include "database.h"
+#include <stdio.h>
 
 using namespace cv;
 
@@ -47,6 +48,10 @@ void database_class :: saveData(person_class person, std::string filename) {
 	imwrite(imageName, img);
 	
 	
+}
+
+void clear(const char* fileName) {
+	remove(fileName);
 }
 
 
